@@ -24,20 +24,20 @@ def update_sar_hauptarchiv_taskflow():
     # Task 1: Container erzeugt eine Parquet-Datei
     download_sru_table = DockerOperator(
         task_id="download_sru_table",
-        image="ghcr.io/alexanderguentert/cas-de-airflow:latest",
+        image="ghcr.io/alexanderguentert/cas-de-airflow-container:latest",
         command="python /app/download_sru.py",
         docker_url="unix://var/run/docker.sock",
         auto_remove="force",
         network_mode="bridge",
         mounts=[shared_mount],  
         mount_tmp_dir=False, 
-        force_pull=True,
+        force_pull=False,
     )
 
     # Task 2: Container prüft/erstellt Zusammen und speicher csv/parquet
     process_summaries = DockerOperator(
         task_id="process_summaries",
-        image="ghcr.io/alexanderguentert/cas-de-airflow:latest",
+        image="ghcr.io/alexanderguentert/cas-de-airflow-container:latest",
         command="python /app/manage_summaries.py",
         docker_url="unix://var/run/docker.sock",
         auto_remove="force",
@@ -52,7 +52,7 @@ def update_sar_hauptarchiv_taskflow():
     # Task 3: Lade CSV auf CKAN: 
     upload_csv = DockerOperator(
         task_id="upload_csv",
-        image="ghcr.io/alexanderguentert/cas-de-airflow:latest",
+        image="ghcr.io/alexanderguentert/cas-de-airflow-container:latest",
         command="python /app/upload_resource_to_ckan_with_patch.py --file /app/data/sar_inventar_hauptarchiv.csv --dataset int_dwh_sar_inventar_hauptarchiv",
         docker_url="unix://var/run/docker.sock",
         auto_remove="force",
@@ -68,7 +68,7 @@ def update_sar_hauptarchiv_taskflow():
     # Task 4: Lade parquet auf CKAN: 
     upload_parquet = DockerOperator(
         task_id="upload_parquet",
-        image="ghcr.io/alexanderguentert/cas-de-airflow:latest",
+        image="ghcr.io/alexanderguentert/cas-de-airflow-container:latest",
         command="python /app/upload_resource_to_ckan_with_patch.py --file /app/data/sar_inventar_hauptarchiv.parquet --dataset int_dwh_sar_inventar_hauptarchiv",
         docker_url="unix://var/run/docker.sock",
         auto_remove="force",
@@ -84,7 +84,7 @@ def update_sar_hauptarchiv_taskflow():
     # Task 5: Lade metadaten auf CKAN: 
     upload_metadata = DockerOperator(
         task_id="upload_metadata",
-        image="ghcr.io/alexanderguentert/cas-de-airflow:latest",
+        image="ghcr.io/alexanderguentert/cas-de-airflow-container:latest",
         command="python /app/update_metadata.py --dataset int_dwh_sar_inventar_hauptarchiv",
         docker_url="unix://var/run/docker.sock",
         auto_remove="force",
