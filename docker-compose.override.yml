@@ -1,0 +1,13 @@
+services:
+  scheduler:
+    env_file:
+      - .env
+    environment:
+      - AIRFLOW_UID=50000 # Feste User  ID, wie in Container
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+
+volumes:
+  # Verzeichnis zum Austausch von Dateien zwischen Containern
+  airflow_shared_data:
