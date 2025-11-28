@@ -152,13 +152,16 @@ In diesem Projekt wird der Aktualisierungsprozes am Beispiel des [Inventar des H
 Für dieses Beispiel werden alle Python Skripte in einen Container gepackt, der von Airflow verwendet werden soll. Im produktiven Betrieb könnte es sinnvoller sein die Skripte zum Hochladen der (Meta-)Daten auf CKAN in einen separaten Container zu packen, da der Prozess hier immer gleich und unabhängig von der Erstellung des Datensatzes ist. Zusätzlich könnte dieser Container dann einfacher von mehreren DAGs verwendet werden.
 
 Der DAG [`update_sar_hauptarchiv.py`](dags/update_sar_hauptarchiv.py) lässt sich dann so im Airflow abbilden. Der Ablauf entspricht im Wesentlichen der Abbildung [oben](#beispiel-inventar-des-hauptarchivs-des-stadtarchivs-zurich). Da die einzelnen Knoten schon zuvor eigene Skript-Aufrufe waren, lies sich der Ablauf leicht auf einen Airflow-DAG übertragen.
-![DAG-Image](images/Bildschirmfoto vom 2025-11-17 10-18-03.png)
+
+![DAG-Image](images/Bildschirmfoto_vom_2025-11-17_10-18-03.png)
 
 Hier wird zusätzlich davon gebraucht gemacht, dass in Airflow Prozesse parallel ausgeführt werden können. Das betrifft, den Upload von CSV und Parquet Dateien. Das bringt in diesem Beispiel kaum zeitliche Vorteile, würde sich aber bei Aktualisierungen mit grösseren Tabellen positiv auswirken.
-![DAG-Zeitlicher-Ablauf](images/Bildschirmfoto vom 2025-11-17 10-18-46.png)
+
+![DAG-Zeitlicher-Ablauf](images/Bildschirmfoto_vom_2025-11-17_10-18-46.png)
 
 Am Ende des DAG werden CSV-, Parquet-Datei und Metadaten in diesem Datensatz aktualisiert: [https://data.integ.stadt-zuerich.ch/dataset/int_dwh_sar_inventar_hauptarchiv](https://data.integ.stadt-zuerich.ch/dataset/int_dwh_sar_inventar_hauptarchiv):
-![Screenshot-OGD-Katalog](images/Bildschirmfoto vom 2025-11-28 16-36-20.png)
+
+![Screenshot-OGD-Katalog](images/Bildschirmfoto_vom_2025-11-28_16-36-20.png)
 
 
 # Fazit / Ausblick
