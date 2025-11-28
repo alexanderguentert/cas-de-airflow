@@ -12,7 +12,7 @@ ckan_api_key = os.environ.get("CKAN_API_KEY_INT")
 @dag(
     dag_id="update_sar_hauptarchiv_dag",
     start_date=pendulum.datetime(2025, 11, 1),
-    schedule=None,
+    schedule="@daily",  # täglich um 00:00 Uhr
     catchup=False,
     description="Erstelle Tabelle mit Inventar des Hauptarchivs und erstelle Zusammenfassungen",
 )
